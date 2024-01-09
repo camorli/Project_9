@@ -504,13 +504,28 @@ class CompileEngine(object):
             sym = self._ExpectSymbol('(')
             self._WriteXml('symbol', self.tokenizer.Symbol())
             self._NextToken()
+
+        fileName = self.symbolTable.TypeOf(objectName)
+
+        toAdd = 0
+        if not fileName:
+            fileName = objectName
+        else:
+            self.vmWriter.WritePush(2, self.symbolTable.IndexOf(objectName))
+            toAdd = 1;
             
-        numExpressions = self._CompileExpressionList()
+        numExpressions = self._CompileExpressionList() + toAdd
         
+            
+        
+        
+
         self._ExpectSymbol(')')
         self._WriteXml('symbol', self.tokenizer.Symbol())
         self._NextToken()
-        self.vmWriter.WriteCall(f"{objectName}.{subroutineName}", numExpressions)
+
+        
+        self.vmWriter.WriteCall(f"{fileName}.{subroutineName}", numExpressions)
         
 
 

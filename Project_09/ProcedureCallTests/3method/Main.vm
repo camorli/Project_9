@@ -7,8 +7,10 @@ push constant 1
 push constant 2
 call Fraction.new 2
 pop local 1
-call f1.getNumerator 0
-call f1.getDenominator 0
+push local 0
+call Fraction.getNumerator 1
+push local 0
+call Fraction.getDenominator 1
 call Fraction.gcd 2
 pop local 3
 push local 3
@@ -79,9 +81,11 @@ push constant 110
 call String.appendChar 2
 call Output.printString 1
 pop temp 0
-call f1.reduce 0
+push local 0
+call Fraction.reduce 1
 pop temp 0
-call f1.print 0
+push local 0
+call Fraction.print 1
 pop temp 0
 goto L3
 label L2
@@ -139,12 +143,14 @@ push constant 110
 call String.appendChar 2
 call Output.printString 1
 pop temp 0
-call f1.print 0
+push local 0
+call Fraction.print 1
 pop temp 0
 label L3
+push local 0
 push local 1
 push constant 1
-call f1.plus 2
+call Fraction.plus 3
 pop local 2
 push constant 31
 call String.new 1
@@ -212,7 +218,8 @@ push constant 110
 call String.appendChar 2
 call Output.printString 1
 pop temp 0
-call f3.print 0
+push local 2
+call Fraction.print 1
 pop temp 0
 push constant 0
 return
