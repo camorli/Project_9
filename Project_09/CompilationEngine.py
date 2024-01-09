@@ -584,6 +584,20 @@ class CompileEngine(object):
         self._WriteXml('symbol', self.tokenizer.Symbol())
         self._NextToken()
         
+        if self.tokenizer.KeywordStr() == 'else':
+            self._WriteXml('keyword', self.tokenizer.KeywordStr())
+            self._NextToken()
+
+            self._ExpectSymbol('{')
+            self._WriteXml('symbol', self.tokenizer.Symbol())
+            self._NextToken()
+            
+            self._CompileStatements()
+
+            self._ExpectSymbol('}')
+            self._WriteXml('symbol', self.tokenizer.Symbol())
+            self._NextToken()
+
         self._WriteXmlTag('</ifStatement>\n')
         pass
 
