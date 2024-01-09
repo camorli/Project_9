@@ -578,15 +578,17 @@ class CompileEngine(object):
 
         self._CompileStatements()
         
-        endElseLabel = self._UniqueLabel()
-        self.vmWriter.WriteGoto(endElseLabel) 
-        self.vmWriter.WriteLabel(endIfLabel)
+        
         
         self._ExpectSymbol('}')
         self._WriteXml('symbol', self.tokenizer.Symbol())
         self._NextToken()
 
         if self.tokenizer.KeywordStr() == 'else':
+            endElseLabel = self._UniqueLabel()
+            self.vmWriter.WriteGoto(endElseLabel) 
+            self.vmWriter.WriteLabel(endIfLabel)
+
             self._WriteXml('keyword', self.tokenizer.KeywordStr())
             self._NextToken()
 
@@ -599,7 +601,12 @@ class CompileEngine(object):
             self._ExpectSymbol('}')
             self._WriteXml('symbol', self.tokenizer.Symbol())
             self._NextToken()
-        self.vmWriter.WriteLabel(endElseLabel)   
+        
+            self.vmWriter.WriteLabel(endElseLabel)   
+
+        else:
+            self.vmWriter.WriteLabel(endIfLabel)
+            
         self._WriteXmlTag('</ifStatement>\n')
         pass
 
