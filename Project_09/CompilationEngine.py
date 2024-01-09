@@ -23,6 +23,7 @@ class CompileEngine(object):
         If 'source' is True, source code will be included as comments in the
             output.
         """
+        self.outputFileName = outputFileName
         self.vmWriter = VmWriter(outputFileName, source)
         self.inputFileName = inputFileName
         if (xmlFileName):
@@ -504,11 +505,12 @@ class CompileEngine(object):
             self._WriteXml('symbol', self.tokenizer.Symbol())
             self._NextToken()
             
-        self._CompileExpressionList()
+        numExpressions = self._CompileExpressionList()
         
         self._ExpectSymbol(')')
         self._WriteXml('symbol', self.tokenizer.Symbol())
         self._NextToken()
+        self.vmWriter.WriteCall(f"{objectName}.{subroutineName}", numExpressions)
         
 
 
